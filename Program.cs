@@ -11,7 +11,7 @@ using Microsoft.Extensions.Configuration;
 namespace DNWS
 {
     // Main class
-    public class Program
+   public class Program
     {
         static public IConfigurationRoot Configuration { get; set; }
 
@@ -296,7 +296,16 @@ namespace DNWS
                     // Get one, show some info
                     _parent.Log("Client accepted:" + clientSocket.RemoteEndPoint.ToString());
                     HTTPProcessor hp = new HTTPProcessor(clientSocket, _parent);
-                    hp.Process();
+                  string ThreadType = Program.Configuration["Thread"].ToString();
+                    if(ThreadType == "single")
+                    {
+                        hp.Process();
+                    }
+                    else if(ThreadType == "multi")
+                    {
+                        Thread thread1 = new Thread(new ThreadStart(hp.Process));
+                        thread1.Start();
+                    }
                 }
                 catch (Exception ex)
                 {
