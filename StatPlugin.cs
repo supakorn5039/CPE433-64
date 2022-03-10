@@ -18,14 +18,13 @@ namespace DNWS
 
     public void PreProcessing(HTTPRequest request)
     {
-      lock(this){ if (statDictionary.ContainsKey(request.Url))
+      if (statDictionary.ContainsKey(request.Url))
       {
         statDictionary[request.Url] = (int)statDictionary[request.Url] + 1;
       }
       else
       {
         statDictionary[request.Url] = 1;
-      }
       }
     }
     public HTTPResponse GetResponse(HTTPRequest request)

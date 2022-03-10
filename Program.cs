@@ -11,7 +11,7 @@ using Microsoft.Extensions.Configuration;
 namespace DNWS
 {
     // Main class
-   public class Program
+    public class Program
     {
         static public IConfigurationRoot Configuration { get; set; }
 
@@ -280,6 +280,7 @@ namespace DNWS
         /// </summary>
         public void Start()
         {
+            String SelectThread = Program.Configuration["Thread"];
             _port = Convert.ToInt32(Program.Configuration["Port"]);
             IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Any, _port);
             // Create listening socket, queue size is 5 now.
@@ -296,16 +297,15 @@ namespace DNWS
                     // Get one, show some info
                     _parent.Log("Client accepted:" + clientSocket.RemoteEndPoint.ToString());
                     HTTPProcessor hp = new HTTPProcessor(clientSocket, _parent);
-                  string ThreadType = Program.Configuration["Thread"].ToString();
-                    if(ThreadType == "single")
+                    if(SelectThread == "Single")
                     {
                         hp.Process();
                     }
-                    else if(ThreadType == "multi")
+                    else if(SelectThread == "Multi")
                     {
                         Thread thread1 = new Thread(new ThreadStart(hp.Process));
                         thread1.Start();
-                    }
+                    }   
                 }
                 catch (Exception ex)
                 {

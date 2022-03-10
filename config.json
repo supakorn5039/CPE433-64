@@ -1,7 +1,7 @@
 ﻿{
     "DocumentRoot": ".",
     "Port": "8080",
-    "Thread": "single",
+    "Thread": "Multi",
     "Plugins" : [
         {
             "Path" : "stat",
@@ -24,10 +24,15 @@
         },
         {
             "Path" : "clientinfo",
-            "Class" : "DNWS.In4Plugin",
-            "Preprocessing" : "true",
-            "Postprocessing" : "false" ,
-            "Singleton" : "false"
+            "Class" : "DNWS.clientinfo",
+            "Preprocessing" : "false",
+            "Postprocessing" : "false"
+        },
+        {
+            "Path" : "pm25",
+            "Class" : "DNWS.PM25Plugin",
+            "Preprocessing" : "false",
+            "Postprocessing" :"false" 
         }
     ]
 }
